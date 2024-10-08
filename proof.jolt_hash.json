@@ -1,0 +1,80 @@
+{
+  "name": "jolt_hash",
+  "description": "test",
+  "network": "dev",
+  "type": "proof",
+  "config": {
+    "prover": {
+      "image": {
+        "remoteDocker": [
+          {
+            "url": "http://localhost:3000/images/jolt_hash.tar.gz",
+            "hash": "0xd9895a813fcdd301373085991d231dedb0fedb1cd707bac4d32d1b3f24d1a423"
+          },
+          "jolt:hash"
+        ]
+      },
+      "inMounts": [
+        {
+          "source": {
+            "file": {
+              "url": "https://localhost:3000/file.txt",
+              "hash": "0x0d3c1eae8c427c625b9ddc7ba1cf462cdd92dc80c8eb94a6f4f4aeef569acc84"
+            }
+          },
+          "target": "/input/file.txt",
+          "temporary": true
+        }
+      ],
+      "injector": null,
+      "resultExtractor": {
+        "file": "/output/proof.bin"
+      },
+      "entrypoint": ["/app/prove"],
+      "cmd": [],
+      "envVars": {
+        "PROOF_LOCATION": "/output/proof.bin",
+        "FILE_LOCATION": "/input/file.txt"
+      },
+      "networkEnabled": false,
+      "privileged": false,
+      "dockerAccess": false
+    },
+    "verifier": {
+      "image": {
+        "remoteDocker": [
+          {
+            "url": "http://localhost:3000/images/jolt_hash.tar.gz",
+            "hash": "0xd9895a813fcdd301373085991d231dedb0fedb1cd707bac4d32d1b3f24d1a423"
+          },
+          "jolt:hash"
+        ]
+      },
+      "inMounts": [],
+      "resultExtractor": {
+        "negativeExitCode": 58
+      },
+      "injector": {
+        "file": "/output/proof.bin"
+      },
+      "entrypoint": ["/app/verify"],
+      "cmd": [],
+      "envVars": {
+        "PROOF_LOCATION": "/output/proof.bin"
+      },
+      "networkEnabled": false,
+      "privileged": false,
+      "dockerAccess": false
+    },
+    "resourceRequirement": {
+      "minVram": null,
+      "minRam": null,
+      "minSsd": null,
+      "minGpu": [],
+      "minCpuCores": 2
+    },
+    "nonce": 217,
+    "callbackUrl": null,
+    "deadline": null
+  }
+}

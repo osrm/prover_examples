@@ -1,0 +1,36 @@
+# List available recipes
+default:
+    @just --list
+
+# Build docker image
+build:
+  docker build -f Dockerfile -t jolt:simple .
+
+# Archive docker image
+save:
+  docker save jolt:simple | gzip > jolt_simple.tar.gz
+
+hash:
+  fermah-seek util hash jolt_simple.tar.gz
+
+prove:
+  docker run -it --rm \
+    -v /tmp/fermah-proofs:/proofs \
+    -e "A=7" \
+    -e "B=191" \
+    -e "PROOF_LOCATION=/proofs/proof.bin" \
+    --entrypoint "/app/prove"
+    jolt:simple
+
+verify:
+  docker run -it --rm \
+    -v /tmp/fermah-proofs:/proofs \
+    -e "PROOF_LOCATION=/proofs/proof.bin" \
+    --entrypoint "/app/verify"
+    jolt:simple
+
+send_proof:
+  cargo run -p fermah-seek -- proof send -k dev \
+    -n jolt \
+    --rpc ws://devnet.fermah.xyz:8080  \
+    --key seeker

@@ -1,0 +1,70 @@
+{
+  "name": "jolt",
+  "description": "test",
+  "network": "dev",
+  "type": "proof",
+  "config": {
+    "prover": {
+      "image": {
+        "remoteDocker": [
+          {
+            "url": "http://localhost:3000/images/jolt_simple.tar.gz",
+            "hash": "0x479d249838ae17573a7050b551d8efb203ab02bf4250c22e3a0824c35344c9e7"
+          },
+          "jolt:simple"
+        ]
+      },
+      "inMounts": [],
+      "injector": null,
+      "resultExtractor": {
+        "file": "/output/proof.bin"
+      },
+      "entrypoint": ["/app/prove"],
+      "cmd": [],
+      "envVars": {
+        "PROOF_LOCATION": "/output/proof.bin",
+        "A": "7",
+        "B": "191"
+      },
+      "networkEnabled": true,
+      "privileged": false,
+      "dockerAccess": false
+    },
+    "verifier": {
+      "image": {
+        "remoteDocker": [
+          {
+            "url": "http://localhost:3000/images/jolt_simple.tar.gz",
+            "hash": "0x479d249838ae17573a7050b551d8efb203ab02bf4250c22e3a0824c35344c9e7"
+          },
+          "jolt:simple"
+        ]
+      },
+      "inMounts": [],
+      "resultExtractor": {
+        "negativeExitCode": 58
+      },
+      "injector": {
+        "file": "/output/proof.bin"
+      },
+      "entrypoint": ["/app/verify"],
+      "cmd": [],
+      "envVars": {
+        "PROOF_LOCATION": "/output/proof.bin"
+      },
+      "networkEnabled": true,
+      "privileged": false,
+      "dockerAccess": false
+    },
+    "resourceRequirement": {
+      "minVram": null,
+      "minRam": null,
+      "minSsd": null,
+      "minGpu": [],
+      "minCpuCores": 2
+    },
+    "nonce": 217,
+    "callbackUrl": null,
+    "deadline": null
+  }
+}

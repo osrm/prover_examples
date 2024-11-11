@@ -6,5 +6,5 @@ This repository contains several examples of provers with corresponding docker i
 Each prover is in its own folder, which contains guest code, prover and verifier code, Dockerfile and justfile which can help with operating it.
 To use justfile you can [install just](https://github.com/casey/just?tab=readme-ov-file#installation). Alternatively, you can just use commands from the justfile.
 
-There are proof request configuration files in the root of this repo. They should be placed to `~/.fermah/config/devnet` to ennable running those proofs in the devnet, or `~/.fermah/config/localnet` for the local network.
+There are proof request configuration files in the root of this repo. They should be placed to `~/.fermah/config/devnet` to enable running those proofs in the devnet, or `~/.fermah/config/localnet` for the local network.
 
